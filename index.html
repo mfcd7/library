@@ -6,7 +6,33 @@
     <title>Library</title>
 </head>
 <body>
-    <div id="library"></div>
+    <h1 id="heading">My Library</h1>
+
+    <dialog id="dialog">
+        <form>
+            <div>
+                <label for="title">Title</label><br>
+                <input type="text" id="title" required />
+            </div>
+            <div>
+                <label for="author">Author</label><br>
+                <input type="text" id="author" required />
+            </div>
+            <div>
+                <label for="pages">Pages</label><br>
+                <input type="number" id="pages" required />
+            </div>
+            <div>
+                <input type="checkbox" name="read-status" id="read-status" />
+                <label for="read-status">I have read this book</label>
+            </div>
+            <button id="confirmBtn">Add to Library</button>
+        </form>
+    </dialog>
+    <button id="new-book">Add New Book</button>
+    <div id="library">
+
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

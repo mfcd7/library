@@ -22,7 +22,6 @@ function removeBook(id) {
 
     if (indexToRemove !== -1) {
         myLibrary.splice(indexToRemove, 1);
-        renderLibrary();
     }
 }
 
@@ -32,13 +31,12 @@ function toggleReadStatus(id) {
     if (indexToUpdate !== -1) {
         const book = myLibrary[indexToUpdate];
         book.read = !book.read;
-        renderLibrary();
     }
 }
 
-addBook("Harry Potter", "J.K. Rowling", 350, false);
-addBook("The Hobbit", "J.R.R. Tolkien", 500, true);
-console.log(myLibrary);
+// addBook("Harry Potter", "J.K. Rowling", 350, false);
+// addBook("The Hobbit", "J.R.R. Tolkien", 500, true);
+// console.log(myLibrary);
 
 // toggleReadStatus(myLibrary[0].id);
 // console.log(myLibrary);
@@ -65,12 +63,65 @@ function renderLibrary() {
         `;
 
         const checkbox = card.querySelector(`#read-${book.id}`);
-        checkbox.addEventListener('change', () => toggleReadStatus(book.id));
+        if (checkbox) {
+            checkbox.addEventListener('change', () => {
+                toggleReadStatus(book.id);
+                renderLibrary();
+            });
+        }
 
         const remove = card.querySelector(`#remove-${book.id}`);
-        remove.addEventListener('click', () => removeBook(book.id));
+        if (remove) {
+            remove.addEventListener('click', () => {
+                removeBook(book.id);
+                renderLibrary();
+            });
+        }
 
         container.appendChild(card);
+    });
+}
+
+const newBook = document.getElementById("new-book");
+const dialog = document.getElementById("dialog");
+const confirmBtn = document.getElementById("confirmBtn");
+
+if (newBook) {
+    newBook.addEventListener("click", () => {
+        dialog.showModal();
+    });
+}
+
+function validateInputs(title, author, pages) {
+    if (!title.trim() || !author.trim()) {
+        alert("Title and Author cannot be empty.");
+        return false;
+    }
+
+    if (isNaN(pages) || pages <= 0) {
+        alert("Please enter a valid pages (greater than 0)");
+        return false;
+    }
+    return true;
+}
+
+if (confirmBtn) {
+    confirmBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const title = document.getElementById("title").value;
+        const author = document.getElementById("author").value;
+        const pages = parseInt(document.getElementById("pages").value);
+        const readStatus = document.getElementById("read-status").checked;
+
+        if (validateInputs(title, author, pages)) {
+            addBook(title, author, pages, readStatus);
+
+            dialog.close();
+            document.querySelector("form").reset();
+
+            renderLibrary();
+        }
     });
 }
 
