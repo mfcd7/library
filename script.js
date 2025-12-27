@@ -59,7 +59,7 @@ function renderLibrary() {
             <p>Pages: ${book.pages}</p>
             <input type="checkbox" id="read-${book.id}" ${book.read ? "checked" : ""}>
             <label for="read-${book.id}">Read</label>
-            <button id="remove-${book.id}">Remove</button>
+            <button id="remove-${book.id}" class="remove">Remove</button>
         `;
 
         const checkbox = card.querySelector(`#read-${book.id}`);
@@ -124,5 +124,9 @@ if (confirmBtn) {
         }
     });
 }
+
+dialog.addEventListener("close", () => {
+    document.querySelector("form").reset();
+});
 
 renderLibrary();
